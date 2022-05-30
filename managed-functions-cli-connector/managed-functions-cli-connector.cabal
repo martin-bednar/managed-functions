@@ -6,7 +6,7 @@ cabal-version: 1.12
 
 name:           managed-functions-cli-connector
 version:        1.0.0
-synopsis:       CLI Connector for Managed Functions
+synopsis:       Command-Line Connector for Managed Functions
 description:    Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
 category:       Remote Management
 homepage:       https://github.com/martin-bednar/managed-functions#readme
