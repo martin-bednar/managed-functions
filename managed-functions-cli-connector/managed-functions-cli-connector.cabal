@@ -1,0 +1,38 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           managed-functions-cli-connector
+version:        1.0.0
+synopsis:       CLI Connector for Managed Functions
+description:    Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
+category:       Remote Management
+homepage:       https://github.com/martin-bednar/managed-functions#readme
+bug-reports:    https://github.com/martin-bednar/managed-functions/issues
+author:         Martin Bednar
+maintainer:     bednam17@fit.cvut.cz
+copyright:      2022 Martin Bednar
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/martin-bednar/managed-functions
+
+library
+  exposed-modules:
+      Managed.Connectors.CliConnector
+  other-modules:
+      Paths_managed_functions_cli_connector
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Wmonomorphism-restriction -Wmissing-home-modules -Widentities -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+    , managed-functions-core
+  default-language: Haskell2010

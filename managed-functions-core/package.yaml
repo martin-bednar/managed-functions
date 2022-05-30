@@ -1,0 +1,50 @@
+name:                managed-functions-core
+version:             1.0.0
+github:              "martin-bednar/managed-functions"
+license:             MIT
+author:              "Martin Bednar"
+maintainer:          "bednam17@fit.cvut.cz"
+copyright:           "2022 Martin Bednar"
+
+extra-source-files:
+  - README.md
+
+# Metadata used when publishing your package
+synopsis:            Core functionality of the Managed Functions Framework
+category:            Remote Management
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
+
+ghc-options:
+  - -Wall
+  - -Wincomplete-uni-patterns
+  - -Wincomplete-record-updates
+  - -Wpartial-fields
+  - -Wmonomorphism-restriction
+  - -Wmissing-home-modules
+  - -Widentities
+  - -Wredundant-constraints
+
+dependencies:
+  - base >= 4.7 && < 5
+  - containers
+  - exceptions
+  - deepseq
+
+library:
+  source-dirs: src
+
+tests:
+  managed-functions-core-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - managed-functions-core
+      - hspec

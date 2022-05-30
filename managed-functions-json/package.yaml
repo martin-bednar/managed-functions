@@ -1,0 +1,37 @@
+name:                managed-functions-json
+version:             1.0.0
+github:              "martin-bednar/managed-functions"
+license:             MIT
+author:              "Martin Bednar"
+maintainer:          "bednam17@fit.cvut.cz"
+copyright:           "2022 Martin Bednar"
+
+extra-source-files:
+  - README.md
+
+# Metadata used when publishing your package
+synopsis:            JSON Support for the Managed Functions Framework
+category:            Remote Management, JSON
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
+
+ghc-options:
+  - -Wall
+  - -Wincomplete-uni-patterns
+  - -Wincomplete-record-updates
+  - -Wpartial-fields
+  - -Wmonomorphism-restriction
+  - -Wmissing-home-modules
+  - -Widentities
+  - -Wredundant-constraints
+
+dependencies:
+  - base >= 4.7 && < 5
+  - managed-functions-core
+  - aeson
+
+library:
+  source-dirs: src
