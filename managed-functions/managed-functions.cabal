@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           managed-functions-core
+name:           managed-functions
 version:        1.0.0
 synopsis:       Core functionality of the Managed Functions Framework
 description:    Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
@@ -41,7 +41,7 @@ library
       Managed.Probe.ToProbe
       Managed.ProbeDescription
   other-modules:
-      Paths_managed_functions_core
+      Paths_managed_functions
   hs-source-dirs:
       src
   ghc-options: -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Wmonomorphism-restriction -Wmissing-home-modules -Widentities -Wredundant-constraints
@@ -52,7 +52,7 @@ library
     , exceptions
   default-language: Haskell2010
 
-test-suite managed-functions-core-test
+test-suite managed-functions-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
@@ -60,7 +60,7 @@ test-suite managed-functions-core-test
       Spec.Managed.Agent
       Spec.Managed.Probe
       Spec.Managed.Probe.ToProbe
-      Paths_managed_functions_core
+      Paths_managed_functions
   hs-source-dirs:
       test
   ghc-options: -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Wmonomorphism-restriction -Wmissing-home-modules -Widentities -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
@@ -70,5 +70,5 @@ test-suite managed-functions-core-test
     , deepseq
     , exceptions
     , hspec
-    , managed-functions-core
+    , managed-functions
   default-language: Haskell2010

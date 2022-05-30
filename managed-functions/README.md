@@ -1,3 +1,3 @@
-# managed-functions-core
+# managed-functions
 
 Core functionality of the Managed Functions framework

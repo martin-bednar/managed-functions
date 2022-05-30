@@ -1,4 +1,4 @@
-name:                managed-functions-core
+name:                managed-functions
 version:             1.0.0
 github:              "martin-bednar/managed-functions"
 license:             MIT
@@ -38,7 +38,7 @@ library:
   source-dirs: src
 
 tests:
-  managed-functions-core-test:
+  managed-functions-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -46,5 +46,5 @@ tests:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - managed-functions-core
+      - managed-functions
       - hspec
