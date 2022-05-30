@@ -1,0 +1,44 @@
+name: Haskell CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+    tags: [ "*.*.*" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Cache Key
+      id: cache_key
+      run: echo ::set-output name=key::$(md5sum stack.yaml | awk '{print $1}')
+
+    - name: Cache Dependencies
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.stack
+        key: ${{ matrix.os }}-${{ steps.cache_key.outputs.key }}
+
+    - name: Build Snapshot
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        stack --no-terminal test --only-snapshot
+        
+    - name: Stack Build
+      run: |
+        stack --no-terminal build
+
+    - name: Stack Test
+      run: |
+        stack --no-terminal test
