@@ -10,7 +10,7 @@ extra-source-files:
   - README.md
 
 # Metadata used when publishing your package
-synopsis:            Core functionality of the Managed Functions Framework
+synopsis:            Remote Management Framework
 category:            Remote Management
 
 # To avoid duplicated efforts in documentation and dealing with the
