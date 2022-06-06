@@ -42,3 +42,7 @@ jobs:
     - name: Stack Test
       run: |
         stack --no-terminal test
+
+    - name: Stack Haddock
+      run: |
+        stack --no-terminal haddock
