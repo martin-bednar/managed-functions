@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           managed-functions
-version:        1.0.0
+version:        1.1.0.0
 synopsis:       Remote Management Framework
 description:    Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
 category:       Remote Management
