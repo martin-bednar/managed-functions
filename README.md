@@ -30,6 +30,16 @@ the output of the underlying function.
 
 Managed Functions implement a default encoding called `SR`, that utilizes `Show` and `Read` instances. 
 
+`Probe` is a fairly simple data type, focused around the `call` function:
+
+```haskell
+data Probe e =
+  Probe
+    { call :: [In e] -> IO (Out e)
+    , typeRep :: TypeRep
+    }
+```
+
 Most functions can be easily converted to a Probe with `toProbe`:
 
 ```haskell
@@ -50,9 +60,12 @@ ag = fromList
   [ ("read file", toProbe readFile)
   , ("write file", toProbe writeFile)
   ]
+-- >>> invoke ag "write file" [show "/tmp/test", show "Hello World!"]
+-- Right "()"
+
+-- >>> invoke ag "read file" [show "/tmp/test"]
+-- Right "\"Hello World!\""
 ```
-
-
 
 ### Connector Level
 
@@ -65,7 +78,16 @@ Each Connector is specialized to a different communication protocol.
 For example, there could be a `JsonRpcConnector`, 
 implementing remote calls according to the [JSON-RPC](https://www.jsonrpc.org/) specification.
 
-## Framework usage example
+In terms of implementation, `Connector` is a simple newtype wrapper around the `run` function:
+
+```haskell
+newtype Connector e =
+  Connector
+    { run :: Agent e -> IO ()
+    }
+```
+
+## Usage example
 
 The primary purpose of __Managed Functions__ is to enable selected functions to be called remotely.
 
@@ -108,6 +130,3 @@ $ curl --json '["\"/tmp/test\"", "\"Hello World!\""]' localhost:3000/probes/writ
 $ curl --json '["\"/tmp/test\""]' localhost:3000/probes/read/invoke
 "\"Hello World!\""⏎
 ```
-
-### Code explanation
-
