@@ -13,11 +13,7 @@ module Managed.Probe.ToProbe
 import Control.Monad.Catch (MonadThrow)
 import Data.Managed
 import Data.Typeable (Proxy(..), TypeRep, Typeable, typeOf)
-import Managed.Exception
-  ( badNumberOfArgs
-  , noParseArg
-  , throwM
-  )
+import Managed.Exception (badNumberOfArgs, noParseArg, throwM)
 import Managed.Probe.Internal.Params (paramsCnt)
 
 -- | Converts any suitable function to a 'Probe'
@@ -27,23 +23,18 @@ toProbe ::
   -> Probe e
 toProbe x =
   let t = typeOf x
-   in Probe
-        { typeRep = t
-        , call = checkArgs t (apply (Proxy @e) x)
-        }
+   in Probe {typeRep = t, call = checkArgs t (apply (Proxy @e) x)}
 
 -- | Class of functions that can be converted to a Probe
 class ToProbe fn e
-  where
   -- | Read arguments from a list, apply them to a function, and encode the result
+  where
   apply :: Proxy e -> fn -> [In e] -> IO (Out e)
 
-instance {-# OVERLAPPABLE #-} (Encode a e) =>
-                              ToProbe a e where
+instance {-# OVERLAPPABLE #-} (Encode a e) => ToProbe a e where
   apply _ c [] = return $ (encode @a @e) c
 
-instance {-# OVERLAPPING #-} (Encode a e) =>
-                             ToProbe (IO a) e where
+instance {-# OVERLAPPING #-} (Encode a e) => ToProbe (IO a) e where
   apply _ c [] = (encode @a @e) <$> c
 
 instance {-# OVERLAPPING #-} (Decode a e, ToProbe b e) =>

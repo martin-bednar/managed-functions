@@ -18,14 +18,10 @@ spec = do
     it "converts an IO function to a Probe" $ do
       call probeIO [show A] >>= (`shouldBe` show A)
     it "rejects wrong number of parameters" $ do
-      call probeN [show B] `shouldThrow`
-        (== BadNumberOfArguments 0 1)
-      call probeU [] `shouldThrow`
-        (== BadNumberOfArguments 1 0)
-      call probeU [show B, show B] `shouldThrow`
-        (== BadNumberOfArguments 1 2)
-      call probeB [show B] `shouldThrow`
-        (== BadNumberOfArguments 2 1)
+      call probeN [show B] `shouldThrow` (== BadNumberOfArguments 0 1)
+      call probeU [] `shouldThrow` (== BadNumberOfArguments 1 0)
+      call probeU [show B, show B] `shouldThrow` (== BadNumberOfArguments 1 2)
+      call probeB [show B] `shouldThrow` (== BadNumberOfArguments 2 1)
     it "creates the correct typeRep" $ do
       typeRep probeB `shouldBe` typeOf binary
       typeRep probeIO `shouldBe` typeOf unaryIO

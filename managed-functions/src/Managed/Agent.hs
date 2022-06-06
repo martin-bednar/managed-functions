@@ -68,14 +68,8 @@ invoke a p i = try $ invokeUnsafe a p i
 -- caused by probe lookup or input parameters.
 -- Exceptions caused by probe invocation
 -- are rethrown as 'ProbeRuntimeException'.
-invokeUnsafe ::
-     (NFData (Out e))
-  => Agent e
-  -> ProbeID
-  -> [In e]
-  -> IO (Out e)
-invokeUnsafe agent pid input =
-  findOrThrow agent pid >>= callStrict input
+invokeUnsafe :: (NFData (Out e)) => Agent e -> ProbeID -> [In e] -> IO (Out e)
+invokeUnsafe agent pid input = findOrThrow agent pid >>= callStrict input
 
 -- | List all Probe IDs
 ids :: Agent e -> [ProbeID]
@@ -86,10 +80,7 @@ describe :: Agent e -> ProbeID -> Maybe ProbeDescription
 describe agent pid = mkDescription pid <$> agent !? pid
 
 -- | A variant of 'describe' that returns 'Either' instead of 'Maybe'
-describeEither ::
-     Agent e
-  -> ProbeID
-  -> Either AgentException ProbeDescription
+describeEither :: Agent e -> ProbeID -> Either AgentException ProbeDescription
 describeEither agent pid =
   case describe agent pid of
     Nothing -> Left $ badProbeID pid
@@ -100,22 +91,18 @@ describeHuman :: Agent e -> ProbeID -> Maybe String
 describeHuman agent pid = human <$> describe agent pid
 
 -- Utility functions
-findOrThrow :: Agent e -> ProbeID ->  IO (Probe e)
+findOrThrow :: Agent e -> ProbeID -> IO (Probe e)
 findOrThrow agent pid =
   case agent !? pid of
     Nothing -> throwM $ badProbeID pid
     Just probe -> return probe
 
-callStrict ::
-     (NFData (Out e)) => [In e] -> Probe e -> IO (Out e)
+callStrict :: (NFData (Out e)) => [In e] -> Probe e -> IO (Out e)
 callStrict input p = callOrThrow input p >>= evalOrThrow
 
 callOrThrow :: [In e] -> Probe e -> IO (Out e)
 callOrThrow input p =
-  call p input `catchIOError`
-  (throwM . probeRuntimeException . toException)
+  call p input `catchIOError` (throwM . probeRuntimeException . toException)
 
 evalOrThrow :: (NFData a) => a -> IO a
-evalOrThrow x =
-  (evaluate . force) x `catch`
-  (throwM . probeRuntimeException)
+evalOrThrow x = (evaluate . force) x `catch` (throwM . probeRuntimeException)

@@ -1,5 +1,4 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE RankNTypes #-}
 
 module Managed.Exception
@@ -28,13 +27,11 @@ instance Exception AgentException where
   displayException = explain
 
 explain :: AgentException -> String
-explain (BadProbeID pid) =
-  "Unrecognized ProbeID: " ++ show pid
+explain (BadProbeID pid) = "Unrecognized ProbeID: " ++ show pid
 explain (BadNumberOfArguments expected got) =
   "Bad number of arguments. Expected " ++
   show expected ++ ", but got " ++ show got
-explain NoParseArgument =
-  "Can't parse probe input argument."
+explain NoParseArgument = "Can't parse probe input argument."
 explain (ProbeRuntimeException reason) =
   "Exception thrown in probe invocation:\n" ++ reason
 
@@ -45,8 +42,7 @@ noParseArg :: AgentException
 noParseArg = NoParseArgument
 
 probeRuntimeException :: SomeException -> AgentException
-probeRuntimeException exception =
-  ProbeRuntimeException (show exception)
+probeRuntimeException exception = ProbeRuntimeException (show exception)
 
 badProbeID :: ProbeID -> AgentException
 badProbeID = BadProbeID

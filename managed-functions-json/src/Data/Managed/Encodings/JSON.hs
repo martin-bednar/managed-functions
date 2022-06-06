@@ -5,14 +5,7 @@
 
 module Data.Managed.Encodings.JSON where
 
-import Data.Aeson
-  ( FromJSON
-  , Result(..)
-  , ToJSON
-  , Value
-  , fromJSON
-  , toJSON
-  )
+import Data.Aeson (FromJSON, Result(..), ToJSON, Value, fromJSON, toJSON)
 import Data.Managed.Encoding
 
 data JSON

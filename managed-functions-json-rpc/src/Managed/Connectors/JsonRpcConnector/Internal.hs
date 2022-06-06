@@ -23,8 +23,7 @@ instance FromJSON Request where
   parseJSON =
     withObject "Request" $ \v -> do
       (_ :: String) <- v .: "jsonrpc"
-      contents <-
-        RqContents <$> v .: "method" <*> v .: "params"
+      contents <- RqContents <$> v .: "method" <*> v .: "params"
       rId <- v .: "id"
       return $ SimpleRequest rId contents
 
@@ -69,8 +68,7 @@ data ErContents =
 handleWith :: Agent JSON -> Request -> IO Response
 handleWith a rq =
   case rq of
-    SimpleRequest rId rCon ->
-      mkRsp rId <$> invoke a (method rCon) (params rCon)
+    SimpleRequest rId rCon -> mkRsp rId <$> invoke a (method rCon) (params rCon)
 
 mkRsp :: ID -> Either AgentException Value -> Response
 mkRsp rId result =

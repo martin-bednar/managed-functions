@@ -16,37 +16,29 @@ spec = do
   let myAgent = fromList myProbes
   Test.Hspec.describe "list" $ do
     it "lists all probes in an Agent" $ do
-      Prelude.map fst (toList myAgent) `shouldMatchList`
-        myIds
+      Prelude.map fst (toList myAgent) `shouldMatchList` myIds
   Test.Hspec.describe "ids" $ do
     it "lists IDs of all probes in an Agent" $ do
       ids myAgent `shouldMatchList` myIds
   Test.Hspec.describe "invoke" $ do
     it "invokes a probe with valid input" $ do
-      invoke "probeB" ["A", "B"] myAgent `shouldReturn`
-        Right "C"
+      invoke myAgent "probeB" ["A", "B"] `shouldReturn` Right "C"
     it "fails to invoke a probe with invalid input" $ do
-      invoke "probeB" ["A", "X"] myAgent `shouldReturn`
-        Left NoParseArgument
+      invoke myAgent "probeB" ["A", "X"] `shouldReturn` Left NoParseArgument
     it "fails to invoke a nonexistent probe" $ do
-      invoke "probeX" [] myAgent `shouldReturn`
-        Left (BadProbeID "probeX")
+      invoke myAgent "probeX" [] `shouldReturn` Left (BadProbeID "probeX")
     it "detect wrong number of input parameters" $ do
-      invoke "probeB" ["A", "B", "C"] myAgent `shouldReturn`
+      invoke myAgent "probeB" ["A", "B", "C"] `shouldReturn`
         Left (BadNumberOfArguments 2 3)
     it "catches any error thrown inside a Probe" $ do
-      invoke "simpleErr" [] errAgent >>=
-        (`shouldSatisfy` isRuntimeException)
-      invoke "ioErr" [] errAgent >>=
-        (`shouldSatisfy` isRuntimeException)
+      invoke errAgent "simpleErr" [] >>= (`shouldSatisfy` isRuntimeException)
+      invoke errAgent "ioErr" [] >>= (`shouldSatisfy` isRuntimeException)
 
 errAgent :: Agent SR
 errAgent =
   fromList
     [ ("simpleErr", toProbe (error "Bad Error!" :: String))
-    , ( "ioErr"
-      , toProbe
-          ((throwIO $ userError "Bad Error!") :: IO String))
+    , ("ioErr", toProbe ((throwIO $ userError "Bad Error!") :: IO String))
     ]
 
 isRuntimeException :: Either AgentException b -> Bool

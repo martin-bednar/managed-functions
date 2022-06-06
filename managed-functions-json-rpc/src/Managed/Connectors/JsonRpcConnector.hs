@@ -14,17 +14,13 @@ import Servant
 type JsonRpcApi
    = ReqBody '[ Servant.JSON] Request :> Post '[ Servant.JSON] Response
 
-jsonRpcConnector ::
-     Connector Data.Managed.Encodings.JSON.JSON
+jsonRpcConnector :: Connector Data.Managed.Encodings.JSON.JSON
 jsonRpcConnector = Connector {run = Warp.run 3000 . mkApp}
 
-mkApp ::
-     Agent Data.Managed.Encodings.JSON.JSON -> Application
+mkApp :: Agent Data.Managed.Encodings.JSON.JSON -> Application
 mkApp agent = serve (Proxy @JsonRpcApi) $ mkServer agent
 
-mkServer ::
-     Agent Data.Managed.Encodings.JSON.JSON
-  -> Server JsonRpcApi
+mkServer :: Agent Data.Managed.Encodings.JSON.JSON -> Server JsonRpcApi
 mkServer a r = hdl
   where
     hdl :: Handler Response

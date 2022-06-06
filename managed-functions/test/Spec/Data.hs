@@ -36,8 +36,7 @@ probeIO :: Probe SR
 probeIO = toProbe unaryIO
 
 probeIntCharStr :: Probe SR
-probeIntCharStr =
-  toProbe (replicate :: Int -> Char -> [Char])
+probeIntCharStr = toProbe (replicate :: Int -> Char -> [Char])
 
 int :: TypeRep
 int = typeRep (Proxy @Int)

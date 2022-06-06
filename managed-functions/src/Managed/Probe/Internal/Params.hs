@@ -8,8 +8,7 @@ import Data.Typeable
 
 expand :: TypeRep -> [TypeRep]
 expand x
-  | "->" <- tyConName $ typeRepTyCon x =
-    flatten $ typeRepArgs x
+  | "->" <- tyConName $ typeRepTyCon x = flatten $ typeRepArgs x
   | otherwise = [x]
 
 flatten :: [TypeRep] -> [TypeRep]
