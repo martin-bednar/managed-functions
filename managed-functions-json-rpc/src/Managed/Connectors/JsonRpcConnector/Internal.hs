@@ -70,7 +70,7 @@ handleWith :: Agent JSON -> Request -> IO Response
 handleWith a rq =
   case rq of
     SimpleRequest rId rCon ->
-      mkRsp rId <$> invoke (method rCon) (params rCon) a
+      mkRsp rId <$> invoke a (method rCon) (params rCon)
 
 mkRsp :: ID -> Either AgentException Value -> Response
 mkRsp rId result =

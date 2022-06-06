@@ -6,7 +6,7 @@ cabal-version: 1.12
 
 name:           managed-functions
 version:        1.0.0
-synopsis:       Core functionality of the Managed Functions Framework
+synopsis:       Remote Management Framework
 description:    Please see the README on GitHub at <https://github.com/martin-bednar/managed-functions#readme>
 category:       Remote Management
 homepage:       https://github.com/martin-bednar/managed-functions#readme

@@ -56,11 +56,11 @@ infixl 9 !, !?
 -- (to keep all exceptions inside the 'Either').
 invoke ::
      (NFData (Out e))
-  => ProbeID -- ^ ID of the probe to be called
+  => Agent e -- ^ Agent that contains the probe to be called
+  -> ProbeID -- ^ ID of the probe to be called
   -> [In e] -- ^ Input parameters
-  -> Agent e -- ^ Agent that contains the probe to be called
   -> IO (Either AgentException (Out e))
-invoke p i a = try $ invokeUnsafe p i a
+invoke a p i = try $ invokeUnsafe a p i
 
 -- | An unsafe variant of 'invoke'.
 --
@@ -70,12 +70,12 @@ invoke p i a = try $ invokeUnsafe p i a
 -- are rethrown as 'ProbeRuntimeException'.
 invokeUnsafe ::
      (NFData (Out e))
-  => ProbeID
+  => Agent e
+  -> ProbeID
   -> [In e]
-  -> Agent e
   -> IO (Out e)
-invokeUnsafe pid input agent =
-  findOrThrow pid agent >>= callStrict input
+invokeUnsafe agent pid input =
+  findOrThrow agent pid >>= callStrict input
 
 -- | List all Probe IDs
 ids :: Agent e -> [ProbeID]
@@ -100,8 +100,8 @@ describeHuman :: Agent e -> ProbeID -> Maybe String
 describeHuman agent pid = human <$> describe agent pid
 
 -- Utility functions
-findOrThrow :: ProbeID -> Agent e -> IO (Probe e)
-findOrThrow pid agent =
+findOrThrow :: Agent e -> ProbeID ->  IO (Probe e)
+findOrThrow agent pid =
   case agent !? pid of
     Nothing -> throwM $ badProbeID pid
     Just probe -> return probe

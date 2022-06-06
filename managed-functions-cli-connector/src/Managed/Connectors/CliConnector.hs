@@ -22,7 +22,7 @@ connect agent =
     ["params", pid] -> print . params $ agent ! pid
     ["returns", pid] -> print . returns $ agent ! pid
     ["describe", pid] -> print $ describeHuman agent pid
-    "invoke":pid:args -> invoke pid args agent >>= print
+    "invoke":pid:args -> invoke agent pid args >>= print
     _ -> error "Illegal arguments"
 
 printAll :: Agent SR -> IO ()

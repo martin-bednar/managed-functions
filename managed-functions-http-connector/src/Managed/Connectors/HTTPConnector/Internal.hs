@@ -39,7 +39,7 @@ handleDescribe a p = safely (return $ describeEither a p)
 handleInvoke ::
      Agent SR -> ProbeID -> [String] -> Handler String
 handleInvoke agent probe args =
-  safely (invoke probe args agent)
+  safely (invoke agent probe args)
 
 errCode :: AgentException -> ServerError
 errCode (ProbeRuntimeException _) = err500
