@@ -26,9 +26,8 @@ toProbe x =
    in Probe {typeRep = t, call = checkArgs t (apply (Proxy @e) x)}
 
 -- | Class of functions that can be converted to a Probe
-class ToProbe fn e
+class ToProbe fn e where
   -- | Read arguments from a list, apply them to a function, and encode the result
-  where
   apply :: Proxy e -> fn -> [In e] -> IO (Out e)
 
 instance {-# OVERLAPPABLE #-} (Encode a e) => ToProbe a e where
