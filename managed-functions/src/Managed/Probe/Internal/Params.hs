@@ -6,10 +6,19 @@ module Managed.Probe.Internal.Params
 
 import Data.Typeable
 
+someFunction :: TypeRep
+someFunction = typeRep (Proxy :: Proxy (() -> ()))
+
+isFunction :: TypeRep -> Bool
+isFunction x =
+  tyConFingerprint (typeRepTyCon x) ==
+  tyConFingerprint (typeRepTyCon someFunction)
+
 expand :: TypeRep -> [TypeRep]
-expand x
-  | "->" <- tyConName $ typeRepTyCon x = flatten $ typeRepArgs x
-  | otherwise = [x]
+expand x =
+  if isFunction x
+    then flatten (typeRepArgs x)
+    else [x]
 
 flatten :: [TypeRep] -> [TypeRep]
 flatten = concatMap expand
